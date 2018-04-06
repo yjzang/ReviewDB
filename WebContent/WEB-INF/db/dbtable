@@ -1,0 +1,29 @@
+SELECT * from MEMBER_TBL where user_id = '444';
+
+SELECT * from MEMBER_TBL ;
+
+truncate table member_tbl;
+
+DELETE FROM EMP WHERE NAME LIKE aa;
+
+
+
+create table test(
+	id varchar2(20) primary key,
+	user_name varchar2(100) not null,
+	user_pw varchar2(10),
+	amount number(6) not null
+
+);
+
+insert into test(id,user_name,user_pw,amount)
+values('admin','admin','1234',30000);
+
+
+
+
+select * from test
+
+
+
+

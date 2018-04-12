@@ -8,7 +8,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 import kr.co.bit.database.ConnectionManager;
-import kr.co.bit.day4.MemberVO;
+import kr.co.bit.vo.MemberVO;
 
 public class MemberDAO {
 
@@ -19,7 +19,7 @@ public class MemberDAO {
 		ConnectionManager mgr = new ConnectionManager();
 		Connection con = mgr.getConnetion();
 		String sql = "insert into member_tbl values(?,?,?,?,?,?,?,?,?,?)";
-		PreparedStatement stmt=null; //compile을 한번만 하고 데이터를 양식에 맞게 보낼 수 있다?  그냥 statement를 쓰고 하드코딩을 하면 보낼때마다 컴파일된다
+		PreparedStatement stmt=null; //PreparedStatement를 쓰면 compile을 한번만 하고 데이터를 양식에 맞게 보낼 수 있다.  그냥 statement를 쓰고 하드코딩을 하면 보낼때마다 컴파일된다
 		if( con == null)
 			System.out.println("연결 노노");
 		try {
@@ -74,7 +74,7 @@ public class MemberDAO {
 			list = new ArrayList<MemberVO>();
 			MemberVO dao = null;
 			while(rs.next()) {   // Resultset 객체에는 결과물을 받아내는 방식에 대한 메소드가 들어있음 
-				dao = new MemberVO();
+				dao = new MemberVO(); 
 				dao.setId(rs.getString(1));
 				dao.setPw(rs.getString(2));
 				dao.setName(rs.getString(3));
@@ -92,7 +92,7 @@ public class MemberDAO {
 					int idx = Integer.parseInt(index);
 					vals[idx] =index;
 				}
-				dao.setLangs(langs);
+				dao.setLangs(vals);
 				
 				
 				dao.setProject(rs.getString(10));
@@ -126,7 +126,6 @@ public class MemberDAO {
 				ResultSet rs = stmt.executeQuery(sql);
 			
 				while(rs.next()) { 
-					if(rs.getString(1).equals(id)) {
 						dao = new MemberVO();
 						dao.setId(rs.getString(1));
 						dao.setPw(rs.getString(2));
@@ -145,14 +144,11 @@ public class MemberDAO {
 							int idx = Integer.parseInt(index);
 							vals[idx] =index;
 						}
-						dao.setLangs(langs);
+						dao.setLangs(vals);
 						
 					
 						dao.setProject(rs.getString(10));
-						
-					} else {
-							dao=null;
-					}
+					
 				}
 				
 					

@@ -6,10 +6,15 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.sql.DataSource;
+
 public class ConnectionManager {
 
 		public Connection getConnetion() {
-			
+		/*	
 			Connection con = null;
 			String url = "jdbc:oracle:thin:@localhost:1521:xe";
 			String driver = "oracle.jdbc.OracleDriver";
@@ -25,7 +30,24 @@ public class ConnectionManager {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+			return con;*/
+			
+			Connection con = null;
+				try {
+					InitialContext initCtx = new InitialContext();
+					Context ctx = (Context)initCtx.lookup("java:comp/env/");
+					DataSource ds = (DataSource)ctx.lookup("jdbc/oracle");
+					con = ds.getConnection();
+				} catch (NamingException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
 			return con;
+			
 		}
 		
 		public void connectClose(Connection con,Statement stmt,ResultSet rs) {

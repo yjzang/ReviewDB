@@ -1,5 +1,5 @@
+<%@page import="kr.co.bit.vo.MemberVO"%>
 <%@page import="java.util.Arrays"%>
-<%@page import="kr.co.bit.day4.MemberVO"%>
 <%@page import="java.util.ArrayList"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>

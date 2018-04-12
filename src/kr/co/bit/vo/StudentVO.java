@@ -1,4 +1,4 @@
-package kr.co.bit.day4;
+package kr.co.bit.vo;
 
 public class StudentVO {
 	private String stdNo;

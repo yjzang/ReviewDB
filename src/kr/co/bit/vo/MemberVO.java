@@ -1,4 +1,4 @@
-package kr.co.bit.day4;
+package kr.co.bit.vo;
 
 import java.util.Arrays;
 

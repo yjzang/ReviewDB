@@ -8,23 +8,17 @@
 </head>
 <style type="text/css">
 
-  #err{
-  	color:red;	
-  	font-size :	8rem;
-  	text-align : center;
-  	justify-content: center;
-  }
-    #err2{
-  	color:red;	
-  	font-size :	2rem;
+  #success{
+  		
+  	font-size :	4rem;
   	text-align : center;
   	justify-content: center;
   }
 
 </style>
+
 <body>
 <br><br><br>
-<h1 id="err"> <span>ERROR</span> </h1>
-<h3 id="err2"> <span>회원등록에 실패하였습니다.</span> </h3>
+<h1 id="success"> <span>Zipcode DB 생성완료</span> </h1>
 </body>
 </html>

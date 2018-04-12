@@ -1,4 +1,5 @@
-<%@page import="kr.co.bit.day4.MemberVO"%>
+
+<%@page import="kr.co.bit.vo.MemberVO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -21,8 +22,8 @@
 <script type="text/javascript">
 	function id_check(){
 		//alert("success");
-		var checkid = document.getElementById("userid").value;
-		window.open("id_check.jsp?id="+checkid,"","width=300px height=200px");
+		//var checkid = document.getElementById("userid").value;
+		window.open("./controller?cmd=openID","","width=300px height=200px");
 		return false;
 	}
 	function id_check_with_ajax(val){
@@ -30,26 +31,30 @@
 		var cmd;
 	
 		if(val=='0'){
-			cmd = "id";
+			cmd = document.getElementById("userid").value;
+			alert(cmd);
 		} else {
 			cmd = "zipcode";
 		}
-		alert(cmd);
 		//var server_page = "id_service.jsp?cmd="+cmd;
-		var server_page = "./mvc/id_service.jsp";
+		var server_page = "./controller?cmd=viewIdService";
 		var xhr = new XMLHttpRequest();
-		
 		xhr.onreadystatechange = function(){
 			if(this.readyState==4&&this.status==200){
 				var result = this.responseText;
 				alert(result);
+				//Ajax 처리
+				var parse_obj = JSON.parse(result);
+				alert(parse_obj.user);
+				alert(parse_obj.message);
+				
 				if(val=="0"){
 					processResultId(result);
 				} else {
-					pr(result);
+					processResultZipcode(result);
 				}
 
-			} else if(this.readyState==4&&this.staus!=200){
+			} else if(this.readyState==4&&this.status!=200){
 				alert("error");
 			}	
 		}
@@ -59,7 +64,7 @@
 		
 		data = "cmd="+cmd;
 		xhr.open("POST",server_page,true);
-		xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded")
+		xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 		xhr.send(data);
 		return false;
 	}
@@ -76,7 +81,7 @@
 		}
 	}
 	
-	var pr = function(result){
+	var processResultZipcode = function(result){
 		var pos = document.getElementById("zipmsg");
 		pos.innerHTML= result;
 		var zip1 = result.substring(0, 3);
@@ -86,6 +91,8 @@
 		document.getElementById("isZipCheck").value = true;
 		return false;
 	}
+	
+	
 	
 	function check_empty(){
 		
@@ -116,6 +123,15 @@
 		}
 		return false;
 	}
+	
+	function getZipcode(){
+	
+		window.open("./controller?cmd=openZipcode","","width=600px height=400px");
+		return false;
+	}
+	
+	
+	
 	
 	function final_check(){
 		var flag = false;
@@ -154,6 +170,7 @@
 		vo.setLangs(new String[]{"0","","",""});
 		vo.setTool("0");
 		vo.setProject("1");
+		
 	}
 	
 	
@@ -163,7 +180,7 @@
 	<tr>
 		<td>아이디</td>
 		<td>
-			<input type="text" name="id" id="userid" value="<%=vo.getId()%>" >
+			<input type="text" name="id" id="userid" value="<%=vo.getId()%>" readonly="readonly" onclick="id_check()" >
 			<input type="text" name="" id="message" disabled="disabled">
 			</td>
 	    <td><button onclick="return id_check_with_ajax(0)">id check</button></td>
@@ -175,14 +192,14 @@
 	<tr><td>이름</td><td><input type="text" name="name" id="name" value="<%=vo.getName()%>"></td><td></td><td></td></tr>
 	<tr><td>우편번호</td>
 		<td>
-			<input type="text" name="zip1" size="3" value="<%=vo.getZipcode().split("-")[0]%>" id="zip1"> -
-			<input type="text" name="zip2" size="3" value="<%=vo.getZipcode().split("-")[1]%>" id="zip2">
+			<input type="text" name="zip1" size="3" value="<%=vo.getZipcode().split("-")[0]%>" id="zip1" readonly="readonly" > -
+			<input type="text" name="zip2" size="3" value="<%=vo.getZipcode().split("-")[1]%>" id="zip2" readonly="readonly" >
 			<span id="zipmsg"></span>
 		</td>
-		<td><button onclick="return id_check_with_ajax(1)">우편번호검사</button></td>
-		<td><input type="hidden" name="isZipCheck" value="false" id="isZipCheck"></td></tr>
-	<tr><td>주소1</td><td><input type="text" name="addr1" size="30" value="<%=vo.getAddr1()%>"></td><td></td><td></td></tr>
-	<tr><td>주소2</td><td><input type="text" name="addr2" size="30" value="<%=vo.getAddr2()%>"></td><td></td><td></td></tr>
+		<td><button onclick="return getZipcode()">우편번호 조회</button></td>
+		<td><input  type="hidden" name="isZipCheck" value="false" id="isZipCheck"></td></tr>
+	<tr><td>주소1</td><td><input type="text" name="addr1" id="addr1" size="50" value="<%=vo.getAddr1()%>" readonly="readonly" ></td><td></td><td></td></tr>
+	<tr><td>주소2</td><td><input type="text" name="addr2" id="addr2" size="50" value="<%=vo.getAddr2()%>"  ></td><td></td><td></td></tr>
 	
 	<tr><td>이메일</td><td><input type="text" name="email" value="<%=vo.getEmail()%>"></td><td></td><td></td></tr>
 	<tr><td>사용언어</td><td>
